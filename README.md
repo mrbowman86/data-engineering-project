@@ -120,6 +120,7 @@ The notebook will:
 - Connect to your PostgreSQL database
 - Perform SQL-based joins to merge tables
 - Reorder final columns and save as `National_Parks_Dataset.csv`
+- Close the connection to the PostgreSQL database
 
 ---
 
