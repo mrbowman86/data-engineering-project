@@ -1,4 +1,3 @@
-
 # National Parks Biodiversity Database
 
 ---
@@ -33,20 +32,18 @@ Our workflow includes:
    - `species_info.csv` (Species classification and conservation info)
 
 2. **Transforming** the data by:
-   - Renaming inconsistent columns (e.g., `Park Name` → `park_name`)
    - Replacing long park names (e.g., "Bryce Canyon National Park" → "Bryce National Park")
-   - Creating a unified, joined dataset: `National_Parks_Dataset.csv`
+   - Renaming inconsistent columns (e.g., `Park Name` → `park_name`, `Park Code` → `park_code`)
+   - Saving cleaned parks data as `parks_updated.csv`
+   - Using SQL LEFT JOINs to merge observations, park metadata, and species info into a single final dataset
 
-3. **Loading** the cleaned and joined data into a relational SQLite database (`national_park_species_db.sql`) with three tables:
-   - `parks_updated`
-   - `observations`
-   - `species_info`
+3. **Loading** the cleaned and joined data into a **PostgreSQL** database (`national_park_species_db`) using `psycopg2`. Data is pulled and merged using direct SQL queries within a Jupyter Notebook.
 
 ---
 
 ## Database Design
 
-We selected **SQLite** for its simplicity, portability, and integration ease with Jupyter Notebooks.
+We selected **PostgreSQL** for robust querying capabilities and professional-level integration with Python through `psycopg2`.
 
 ### Entity Relationship Diagram (ERD)
 
@@ -89,9 +86,11 @@ All data was sourced from [Kaggle](https://www.kaggle.com/):
 
 ## Technologies Used
 
-- **Python** (Pandas, SQLite, Polars for high-performance data processing)
 - **Jupyter Notebooks**
-- **SQLite** (via `sqlite3` and `SQLAlchemy`)
+- **Python**
+- **Pandas** (for general-purpose data analysis)
+- **Polars** (for high-performance column and string operations)
+- **PostgreSQL** (via `psycopg2` for PostgreSQL access)
 
 ---
 
@@ -105,7 +104,7 @@ cd national-parks-biodiversity
 
 ### 2. Install Required Packages
 ```bash
-pip install pandas polars pyspark koalas sqlalchemy jupyterlab
+pip install pandas polars psycopg2 jupyterlab
 ```
 
 ### 3. Open the Jupyter Notebook
@@ -116,10 +115,11 @@ jupyter lab national_parks.ipynb
 ### 4. Run the Cells
 The notebook will:
 - Load data from CSVs
-- Transform column names and entries
-- Perform joins to create the full dataset
-- Load the final data into a local SQLite database
-- Query the database and display results
+- Use Polars to clean and rename park metadata
+- Write cleaned data to `parks_updated.csv`
+- Connect to your PostgreSQL database
+- Perform SQL-based joins to merge tables
+- Reorder final columns and save as `National_Parks_Dataset.csv`
 
 ---
 
@@ -146,10 +146,9 @@ The notebook will:
   [Kaggle: National Parks Species Observations](https://www.kaggle.com/datasets/nationalparkservice/park-biodiversity)  
 
 - **Tools**:  
-  - SQLite  
+  - PostgreSQL  
   - Pandas  
   - Polars  
-  - Koalas  
   - Jupyter Notebook
 
 - **AI Support**:  
